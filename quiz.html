@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz to get your house</title>
+    <link rel="stylesheet" href="sorting.css">
+</head>
+<body>
+    <div class="quiz-container"> Question 1 to 8
+    <p id="questions-text"></p>
+    <div id="options-container"></div>
+    <div id="result-box"></div>
+    <audio id="click-sound" src="click.mp3"></audio>
+    </div>
+    <script>
+    const questions=[
+        {
+    text: "It's late at night and you can't sleep. What do you do?",
+    options: [
+      { text: "Sneak out to explore somewhere forbidden", house: "gryffindor" },
+      { text: "Read a book on a subject no one else cares about", house: "ravenclaw" },
+      { text: "Plan tomorrow carefully so the day goes smoothly", house: "hufflepuff" },
+      { text: "Lie awake plotting how to get ahead of a rival", house: "slytherin" }
+    ]
+  },
+
+    {
+       text: "A friend asks for help with something risky. You...",
+  options: [
+    { text: "Jump in immediately, consequences later", house: "gryffindor" },
+    { text: "Help, but only after they're loyal to you too", house: "slytherin" },
+    { text: "Help no matter what — that's what friends do", house: "hufflepuff" },
+    { text: "Analyze the situation before deciding", house: "ravenclaw" }
+  ]
+}, 
+    {
+  text: "Pick a quality you value most in yourself:",
+  options: [
+    { text: "Courage", house: "gryffindor" },
+    { text: "Ambition", house: "slytherin" },
+    { text: "Wisdom", house: "ravenclaw" },
+    { text: "Loyalty", house: "hufflepuff" }
+  ]
+},
+{
+  text: "Your team loses an important match. What's your first thought?",
+  options: [
+    { text: "Let's get straight back out there and try again", house: "gryffindor" },
+    { text: "What went wrong? Let's review it logically", house: "ravenclaw" },
+    { text: "Unacceptable. I'll personally fix this", house: "slytherin" },
+    { text: "We'll win next time — chin up, everyone", house: "hufflepuff" }
+  ]
+},
+{
+  text: "You find a locked door with a 'Do Not Enter' sign. You...",
+  options: [
+    { text: "Open it. Rules are basically suggestions", house: "gryffindor" },
+    { text: "Wonder what's inside, then find a clever way to find out", house: "ravenclaw" },
+    { text: "Respect it — but remember it for later", house: "slytherin" },
+    { text: "Leave it alone, it's probably for a good reason", house: "hufflepuff" }
+  ]
+},
+{
+  text: "Choose a way to spend a free afternoon:",
+  options: [
+    { text: "Dueling practice with friends", house: "gryffindor" },
+    { text: "Researching something obscure in the library", house: "ravenclaw" },
+    { text: "Networking with people who could be useful later", house: "slytherin" },
+    { text: "Tending to magical creatures or plants", house: "hufflepuff" }
+  ]
+},
+{
+  text: "What matters most when making a big decision?",
+  options: [
+    { text: "Doing what's right, even if it's hard", house: "gryffindor" },
+    { text: "What the facts and logic point to", house: "ravenclaw" },
+    { text: "What gets the best outcome for me", house: "slytherin" },
+    { text: "What's best for the people I care about", house: "hufflepuff" }
+  ]
+},
+{
+  text: "How do you usually react to surprises?",
+  options: [
+    { text: "Excited — bring on the unexpected", house: "gryffindor" },
+    { text: "Curious — I want to understand why it happened", house: "ravenclaw" },
+    { text: "Calculating — how can I use this to my advantage", house: "slytherin" },
+    { text: "Calm — I adjust and keep things steady", house: "hufflepuff" }
+  ]
+}
+];
+
+let current = 0;
+let scores = { gryffindor: 0, slytherin: 0, ravenclaw: 0, hufflepuff: 0 };
+
+function renderQuestion(){
+
+    let q = questions[current];
+    document.getElementById('questions-text').textContent = q.text;
+    q.options.forEach(function(opt){
+        let btn = document.createElement("button");//creating btn
+        btn.textContent = opt.text;//set button label
+        btn.onclick = function(){ selectAnswer(opt.house); };
+        document.getElementById("options-container").appendChild(btn);//add it to the page
+    }
+);
+}
+renderQuestion();
+
+function selectAnswer(house){
+    scores[house] += 1;
+    current += 1;
+    document.getElementById("options-container").innerHTML = "";
+    if (current < questions.length) {
+        renderQuestion();
+    } else {
+        showResult();
+    }
+    document.getElementById("click-sound").play();
+}
+
+function showResult(){
+    let winner = Object.keys(scores).reduce(function(a, b){
+        return scores[a] >= scores[b] ? a : b;
+    });
+    document.getElementById("result-box").textContent = "Your house is: " + winner;
+    document.getElementById("questions-text").textContent = "";
+}
+</script>
+</body>
+
+</html>
